@@ -1,25 +1,23 @@
-import logo from './logo.svg';
+import React, { useEffect } from 'react';
 import './App.css';
+import {Location} from './components/Location.js';
 
-function App() {
+export default function App(){
+
+    const [locationData, setLocationData] = React.useState({})
+
+      useEffect(() => {
+        fetch("https://api.wheretheiss.at/v1/satellites/25544")
+      .then((response) => response.json())
+      .then((data) => setLocationData(data));
+      }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Location 
+        lat={locationData.latitude}
+        long={locationData.longitude}
+      />
     </div>
   );
 }
-
-export default App;
